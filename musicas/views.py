@@ -25,6 +25,7 @@ def api_musica(request, musica_id):
         musica_data = request.data
         musica.title = musica_data['title']
         musica.artista = musica_data['artista']
+        musica.idp = musica_data['idp']
         playlist = musica_data['playlist']
 
         if Playlist.objects.filter(playlist=playlist).exists() == False:
@@ -51,6 +52,8 @@ def api_musica_get(request):
         title = new_musica_data['title']
         artista = new_musica_data['artista']
         playlist = new_musica_data['playlist']
+        idp = new_musica_data['idp']
+
 
         if Playlist.objects.filter(playlist=playlist).exists() == False:
             playlistNova = Playlist(playlist=playlist)
@@ -58,7 +61,7 @@ def api_musica_get(request):
 
         playlist = Playlist.objects.get(playlist=playlist)    
 
-        new_musica = Musica(title=title, artista=artista, playlist=playlist)
+        new_musica = Musica(title=title, artista=artista, playlist=playlist, idp=idp)
         new_musica.save()
 
     all_musicas = Musica.objects.all()

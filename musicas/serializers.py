@@ -6,5 +6,5 @@ class MusicaSerializer(serializers.ModelSerializer):
     playlist = serializers.ReadOnlyField(source='playlist.playlist')
     class Meta:
         model = Musica
-        fields = ['id', 'title', 'artista', 'playlist']
+        fields = ['id', 'title', 'artista','idp','playlist']
 

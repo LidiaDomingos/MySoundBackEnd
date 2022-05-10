@@ -9,6 +9,8 @@ class Playlist(models.Model):
 class Musica(models.Model):
     title = models.CharField(max_length=200)
     artista = models.CharField(max_length=200)
+    idp = models.IntegerField(null=True)
+
     playlist = models.ForeignKey(Playlist, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
