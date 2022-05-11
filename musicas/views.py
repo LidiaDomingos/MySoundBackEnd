@@ -3,7 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from django.http import Http404
 from .models import Musica, Playlist
-from .serializers import MusicaSerializer
+from .serializers import MusicaSerializer, PlaylistSerializer
+
 
 # SUAS OUTRAS FUNÇÕES CONTINUAM AQUI
 
@@ -67,4 +68,10 @@ def api_musica_get(request):
     all_musicas = Musica.objects.all()
     serialized_musica = MusicaSerializer(all_musicas, many=True)
     return Response(serialized_musica.data)
+
+@api_view(['GET', 'POST', ])
+def api_playlist_get(request):
+    all_playlist = Playlist.objects.all()
+    serialized_playlist = PlaylistSerializer(all_playlist, many=True)
+    return Response(serialized_playlist.data)
 
