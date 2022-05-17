@@ -27,6 +27,10 @@ def api_musica(request, musica_id):
         musica.title = musica_data['title']
         musica.artista = musica_data['artista']
         musica.idp = musica_data['idp']
+        musica.link = musica_data['link']
+        musica.album = musica_data['album']
+        musica.duracao = musica_data['duracao']
+        musica.img = musica_data['img']
         playlist = musica_data['playlist']
 
         if Playlist.objects.filter(playlist=playlist).exists() == False:
@@ -54,6 +58,10 @@ def api_musica_get(request):
         artista = new_musica_data['artista']
         playlist = new_musica_data['playlist']
         idp = new_musica_data['idp']
+        img = new_musica_data['img']
+        duracao = new_musica_data['duracao']
+        link = new_musica_data['link']
+        album = new_musica_data['album']
 
 
         if Playlist.objects.filter(playlist=playlist).exists() == False:
@@ -62,7 +70,7 @@ def api_musica_get(request):
 
         playlist = Playlist.objects.get(playlist=playlist)    
 
-        new_musica = Musica(title=title, artista=artista, playlist=playlist, idp=idp)
+        new_musica = Musica(title=title, artista=artista, playlist=playlist, idp=idp, img=img,album=album, link=link, duracao=duracao)
         new_musica.save()
 
     all_musicas = Musica.objects.all()
@@ -75,3 +83,17 @@ def api_playlist_get(request):
     serialized_playlist = PlaylistSerializer(all_playlist, many=True)
     return Response(serialized_playlist.data)
 
+@api_view(['GET', 'POST', 'DELETE'])
+def api_playlist(request, playlist_id):
+    try:
+        playlist = Playlist.objects.get(id=playlist_id)
+    except Playlist.DoesNotExist:
+        raise Http404()
+
+    if request.method == "DELETE":
+        playlist.delete()
+        return Response(status=204)
+
+    all_musicas = Musica.objects.filter(playlist=playlist_id)
+    serialized_musica = MusicaSerializer(all_musicas, many=True)
+    return Response(serialized_musica.data)

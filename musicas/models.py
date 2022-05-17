@@ -9,7 +9,12 @@ class Playlist(models.Model):
 class Musica(models.Model):
     title = models.CharField(max_length=200)
     artista = models.CharField(max_length=200)
-    idp = models.IntegerField(null=True)
+    idp = models.CharField(max_length=200)
+    img = models.CharField(max_length=200)
+    duracao = models.CharField(max_length=200)
+    album = models.CharField(max_length=200)
+    link = models.CharField(max_length=200)
+    
 
     playlist = models.ForeignKey(Playlist, null=True, on_delete=models.SET_NULL)
 

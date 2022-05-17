@@ -6,7 +6,7 @@ class MusicaSerializer(serializers.ModelSerializer):
     playlist = serializers.ReadOnlyField(source='playlist.playlist')
     class Meta:
         model = Musica
-        fields = ['id', 'title', 'artista','idp','playlist']
+        fields = ['id', 'title', 'artista','playlist','idp', 'img', 'link', 'album', 'duracao' ]
 
 class PlaylistSerializer(serializers.ModelSerializer):
     class Meta:
