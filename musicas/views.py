@@ -22,25 +22,6 @@ def api_musica(request, musica_id):
     except Musica.DoesNotExist:
         raise Http404()
 
-    if request.method == 'POST':
-        musica_data = request.data
-        musica.title = musica_data['title']
-        musica.artista = musica_data['artista']
-        musica.idp = musica_data['idp']
-        musica.link = musica_data['link']
-        musica.album = musica_data['album']
-        musica.duracao = musica_data['duracao']
-        musica.img = musica_data['img']
-        playlist = musica_data['playlist']
-
-        if Playlist.objects.filter(playlist=playlist).exists() == False:
-            playlistNova = Playlist(playlist=playlist)
-            playlistNova.save()
-
-        musica.playlist = Playlist.objects.get(playlist=playlist) 
-
-        musica.save()
-
     if request.method == "DELETE":
         musica.delete()
         return Response(status=204)
@@ -63,12 +44,17 @@ def api_musica_get(request):
         link = new_musica_data['link']
         album = new_musica_data['album']
 
+        print("#########################################")
+        print(playlist)
+
+        playlist = playlist.replace(" ","_")
 
         if Playlist.objects.filter(playlist=playlist).exists() == False:
             playlistNova = Playlist(playlist=playlist)
-            playlistNova.save(playlistNova)
-
-        playlist = Playlist.objects.get(playlist=playlist)    
+            playlistNova.save()
+            playlist = playlistNova
+        else:
+            playlist = Playlist.objects.get(playlist=playlist)    
 
         new_musica = Musica(title=title, artista=artista, playlist=playlist, idp=idp, img=img,album=album, link=link, duracao=duracao)
         new_musica.save()
@@ -84,9 +70,9 @@ def api_playlist_get(request):
     return Response(serialized_playlist.data)
 
 @api_view(['GET', 'POST', 'DELETE'])
-def api_playlist(request, playlist_id):
+def api_playlist(request, playlist):
     try:
-        playlist = Playlist.objects.get(id=playlist_id)
+        playlist = Playlist.objects.get(playlist=playlist)
     except Playlist.DoesNotExist:
         raise Http404()
 
@@ -94,6 +80,6 @@ def api_playlist(request, playlist_id):
         playlist.delete()
         return Response(status=204)
 
-    all_musicas = Musica.objects.filter(playlist=playlist_id)
+    all_musicas = Musica.objects.filter(playlist=playlist)
     serialized_musica = MusicaSerializer(all_musicas, many=True)
     return Response(serialized_musica.data)
