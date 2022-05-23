@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-baz4=z+6f7c!*iy#)spkuxo3(38r8e)^$)m&pmfnl4#wn4w)vg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['intense-headland-73841.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['intense-headland-73841.herokuapp.com', 'localhost', '127.0.0.1', 'https://polar-castle-53848.herokuapp.com'] 
 
 
 # Application definition
